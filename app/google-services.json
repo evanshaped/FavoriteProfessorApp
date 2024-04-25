@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "630581203401",
+    "firebase_url": "https://cmsc436-92bdb-default-rtdb.firebaseio.com",
+    "project_id": "cmsc436-92bdb",
+    "storage_bucket": "cmsc436-92bdb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630581203401:android:3f46f7c0e2d858bdd3d818",
+        "android_client_info": {
+          "package_name": "com.example.favoriteprofessorapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGEojwYCT_V4BLrZrv45y3YIm5BGOESIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630581203401:android:11376653bd2153a8d3d818",
+        "android_client_info": {
+          "package_name": "com.example.firebasedemo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGEojwYCT_V4BLrZrv45y3YIm5BGOESIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
