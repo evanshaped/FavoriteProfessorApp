@@ -1,5 +1,6 @@
 package com.example.favoriteprofessorapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,25 +13,35 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var classes_listener : ClassesListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
 
         var firebase : FirebaseDatabase = FirebaseDatabase.getInstance()
-        var classes : DatabaseReference = firebase.getReference("Classes")
-        var professors : DatabaseReference = firebase.getReference("Professors")
+        classes = firebase.getReference("Classes")
+        professors = firebase.getReference("Professors")
 
-        var classes_listener : ClassesListener = ClassesListener()
+        classes_listener = ClassesListener()
         classes.addValueEventListener(classes_listener)
 
         var professor_listener : ProfessorListener = ProfessorListener()
         professors.addValueEventListener(professor_listener)
+
+        //var myIntent : Intent = Intent(this, SearchActivity::class.java)
+        //startActivity(myIntent)
+    }
+
+    fun getClasses(searched_classes : String) : JSONArray {
+        return classes_listener.getClasses(searched_classes)
     }
 
     inner class ClassesListener : ValueEventListener {
+        var valueObject : Any? = null
         override fun onDataChange(snapshot: DataSnapshot) {
             var key : String? = snapshot.key
-            var valueObject : Any? = snapshot.value
+            valueObject = snapshot.value
             if (valueObject != null) {
                 var value : String = valueObject.toString()
                 var jsonObject : JSONObject = JSONObject(value)
@@ -43,6 +54,13 @@ class MainActivity : AppCompatActivity() {
 
         override fun onCancelled(error: DatabaseError) {
             Log.w("MainActivity", "reading failure: " + error.message)
+        }
+
+        fun getClasses(searched_classes : String) : JSONArray {
+            var value : String = valueObject.toString()
+            var jsonObject : JSONObject = JSONObject(value)
+            var jsonArray : JSONArray = jsonObject.getJSONArray(searched_classes)
+            return jsonArray
         }
     }
 
@@ -64,5 +82,10 @@ class MainActivity : AppCompatActivity() {
         override fun onCancelled(error: DatabaseError) {
             Log.w("MainActivity", "reading failure: " + error.message)
         }
+    }
+
+    companion object {
+        lateinit var classes : DatabaseReference
+        lateinit var professors : DatabaseReference
     }
 }
