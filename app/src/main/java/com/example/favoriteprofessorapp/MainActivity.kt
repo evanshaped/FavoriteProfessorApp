@@ -30,16 +30,14 @@ class MainActivity : AppCompatActivity() {
     inner class ClassesListener : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
             var key : String? = snapshot.key
-            //Log.w("MainActivity", "key is " + key)
             var valueObject : Any? = snapshot.value
             if (valueObject != null) {
                 var value : String = valueObject.toString()
                 var jsonObject : JSONObject = JSONObject(value)
                 var jsonArray : JSONArray = jsonObject.getJSONArray("CMSC320")
                 var professor1 : String = jsonArray.getString(0)
-                //Log.w("MainActivity", "value is " + professor1)
             } else {
-                //Log.w("MainActivity", "No value found")
+                Log.w("MainActivity", "No value found")
             }
         }
 
@@ -51,15 +49,13 @@ class MainActivity : AppCompatActivity() {
     inner class ProfessorListener : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
             var key : String? = snapshot.key
-            Log.w("MainActivity", "key is " + key)
             var valueObject : Any? = snapshot.value
             if (valueObject != null) {
                 var value : String = valueObject.toString()
-                //var jsonObject : JSONObject = JSONObject(value)
-                //var jsonObject2 : JSONObject = jsonObject.getJSONObject("Nelson")
-                //var jsonArray : JSONArray = jsonObject2.getJSONArray("Review")
-                //var review1 : String = jsonArray.getString(0)
-                Log.w("MainActivity", "value is " + value)
+                var jsonObject : JSONObject = JSONObject(value)
+                var jsonObject2 : JSONObject = jsonObject.getJSONObject("Nelson")
+                var jsonArray : JSONArray = jsonObject2.getJSONArray("Review")
+                var review1 : String = jsonArray.getString(0)
             } else {
                 Log.w("MainActivity", "No value found")
             }
