@@ -31,6 +31,7 @@ class SearchActivity : AppCompatActivity() {
         var valueObject = MainActivity.classes_snapshot?.value
         if (valueObject != null) {
             var value: String = valueObject.toString()
+            Log.w("MainActivity", value)
             var jsonObject : JSONObject = JSONObject(value)
             displayProfessors(jsonObject)
             //Log.w("MainActivity", value)
@@ -45,11 +46,13 @@ class SearchActivity : AppCompatActivity() {
         // add professors to Professor list if not already in it
         for (i in 0 until jsonArray.length()) {
             var name = jsonArray.getString(i)
-            Log.w("MainActivity", name)
+            //Log.w("MainActivity", name)
             if (!MainActivity.professors.checkForProfessor(name)) {
+                Log.w("MainActivity", name)
                 MainActivity.professors.addProfessor(Professor(name))
-                returned_professors.add(name)
+
             }
+            returned_professors.add(name)
         }
 
         // display the professors
