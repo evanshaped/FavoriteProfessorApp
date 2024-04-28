@@ -13,6 +13,8 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var classes_db : DatabaseReference
+    private lateinit var professors_db : DatabaseReference
     private lateinit var classes_listener : ClassesListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,26 +22,29 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         var firebase : FirebaseDatabase = FirebaseDatabase.getInstance()
-        classes = firebase.getReference("Classes")
-        professors = firebase.getReference("Professors")
+        classes_db = firebase.getReference("Classes")
+        professors_db = firebase.getReference("Professors")
 
         classes_listener = ClassesListener()
-        classes.addValueEventListener(classes_listener)
+        classes_db.addValueEventListener(classes_listener)
 
         var professor_listener : ProfessorListener = ProfessorListener()
-        professors.addValueEventListener(professor_listener)
+        professors_db.addValueEventListener(professor_listener)
 
-        //var myIntent : Intent = Intent(this, SearchActivity::class.java)
-        //startActivity(myIntent)
+        professors = Professors()
+
+        loadSearchResults()
     }
 
-    fun getClasses(searched_classes : String) : JSONArray {
-        return classes_listener.getClasses(searched_classes)
+    fun loadSearchResults() {
+        var myIntent : Intent = Intent(this, SearchActivity::class.java)
+        startActivity(myIntent)
     }
 
     inner class ClassesListener : ValueEventListener {
         var valueObject : Any? = null
         override fun onDataChange(snapshot: DataSnapshot) {
+            classes_snapshot = snapshot
             var key : String? = snapshot.key
             valueObject = snapshot.value
             if (valueObject != null) {
@@ -47,6 +52,11 @@ class MainActivity : AppCompatActivity() {
                 var jsonObject : JSONObject = JSONObject(value)
                 var jsonArray : JSONArray = jsonObject.getJSONArray("CMSC320")
                 var professor1 : String = jsonArray.getString(0)
+                //Log.w("MainActivity", "Professor: " + professor1)
+
+                // this will eventually be called based on when the user clicks search
+                // but just keeping it here for now to get it to work
+                loadSearchResults()
             } else {
                 Log.w("MainActivity", "No value found")
             }
@@ -54,13 +64,6 @@ class MainActivity : AppCompatActivity() {
 
         override fun onCancelled(error: DatabaseError) {
             Log.w("MainActivity", "reading failure: " + error.message)
-        }
-
-        fun getClasses(searched_classes : String) : JSONArray {
-            var value : String = valueObject.toString()
-            var jsonObject : JSONObject = JSONObject(value)
-            var jsonArray : JSONArray = jsonObject.getJSONArray(searched_classes)
-            return jsonArray
         }
     }
 
@@ -85,7 +88,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        lateinit var classes : DatabaseReference
-        lateinit var professors : DatabaseReference
+        var classes_snapshot : DataSnapshot? = null
+        lateinit var professors : Professors
     }
 }

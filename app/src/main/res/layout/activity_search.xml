@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text=""
+        android:text="Professors"
         android:id="@+id/professor_search"
         android:textSize="36sp" />
 
@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/list_view"
         android:divider="#FF00"
-        android:dividerHeight="2dp"/>
+        android:dividerHeight="2dp"
+        android:layout_below="@+id/professor_search" />
 
-</LinearLayout>
+</RelativeLayout>
