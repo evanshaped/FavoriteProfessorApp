@@ -1,6 +1,9 @@
 package com.example.favoriteprofessorapp
 
+import android.app.Activity
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
@@ -12,6 +15,7 @@ class ReviewActivity : AppCompatActivity() {
     private lateinit var textView : TextView
     private lateinit var listView : ListView
     private var reviews : ArrayList<String> = ArrayList<String>()
+    private var ratings : ArrayList<String> = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +37,12 @@ class ReviewActivity : AppCompatActivity() {
     fun displayReviews(jsonObject : JSONObject) {
         // get the list of reviews to display in list view
         var jsonObject2 : JSONObject = jsonObject.getJSONObject(SearchActivity.clicked_professor)
-        var jsonArray : JSONArray = jsonObject2.getJSONArray("Reviews")
+        var jsonReviewsArray : JSONArray = jsonObject2.getJSONArray("Reviews")
+        var jsonRatingsArray : JSONArray = jsonObject2.getJSONArray("Reviews")
 
-        for (i in 0 until jsonArray.length()) {
-            reviews.add(jsonArray.getString(i))
+        for (i in 0 until jsonReviewsArray.length()) {
+            reviews.add(jsonReviewsArray.getString(i))
+            ratings.add(jsonRatingsArray.getString(i))
         }
 
         var adapter : ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_list_item_1, reviews)
