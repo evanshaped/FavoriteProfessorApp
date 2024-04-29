@@ -1,6 +1,7 @@
 package com.example.favoriteprofessorapp
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -47,5 +48,10 @@ class ReviewActivity : AppCompatActivity() {
 
         var adapter : ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_list_item_1, reviews)
         listView.adapter = adapter
+    }
+
+    fun processReview(v : View){
+        var myIntent : Intent = Intent(this@ReviewActivity, AddReview::class.java)
+        startActivity(myIntent)
     }
 }

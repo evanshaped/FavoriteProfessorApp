@@ -29,6 +29,8 @@
         <activity android:name=".ReviewActivity">
 
         </activity>
+
+        <activity android:name=".AddReview"></activity>
     </application>
 
 </manifest>

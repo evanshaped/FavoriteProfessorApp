@@ -8,7 +8,7 @@
     <style name="Theme.FavoriteProfessorApp" parent="Base.Theme.FavoriteProfessorApp" />
 
     <style name="ButtonStyleLight" parent="Base.Theme.FavoriteProfessorApp">
-        <item name="android:backgroundTint">@color/blue</item>
+        <item name="android:backgroundTint">@color/purple</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
@@ -17,10 +17,17 @@
         <item name="android:dividerHeight">2dp</item>
     </style>
 
-    <style name="ProfessorTitleLight" >
+    <style name="ProfessorTitleLight" parent="Base.Theme.FavoriteProfessorApp" >
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@color/blue</item>
         <item name="android:textSize">36sp</item>
+    </style>
+
+    <style name="RatingBarLight" parent="Base.Theme.FavoriteProfessorApp">
+        <item name="android:progressTint">@color/lightGreen</item>
+        <item name="android:rating">2.5</item>
+        <item name="android:scaleX">1.27</item>
+        <item name="android:scaleY">1.27</item>
     </style>
 
 </resources>

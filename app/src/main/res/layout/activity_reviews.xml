@@ -17,13 +17,35 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/blue"
-        android:layout_below="@+id/professor_searched"/>
+        android:layout_below="@+id/professor_searched"
+        />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/professor_searched"
+        android:layout_marginTop="75dp"
+        android:background="@color/blue"
+        />
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
         android:id="@+id/review_list"
+        android:headerDividersEnabled="true"
         style="@style/DividerStyleLight"
         android:layout_below="@+id/professor_searched" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/professor_searched"
+        android:layout_marginTop="15dp"
+        style="@style/ButtonStyleLight"
+        android:text="Write New Review"
+        android:id="@+id/newReview"
+        android:onClick="processReview"
+        />
+    />
 </RelativeLayout>

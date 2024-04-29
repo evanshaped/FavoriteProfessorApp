@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Write a Review for Professor"
+        android:paddingTop="3dp"
+        android:paddingLeft="10dp"
+        android:textSize="25dp"
+        style="@style/ProfessorTitleLight"
+        android:id="@+id/title"
+        />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:id="@+id/rating"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="6dp"
+        style="@style/RatingBarLight"
+        />
+
+    <EditText
+        android:layout_width="375dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/user_input"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingLeft="5dp"
+        android:layout_below="@+id/rating"
+        android:gravity="top"
+        android:layout_marginTop="5dp"
+        android:textSize="18dp"
+        android:hint="Type here"
+        android:background="@drawable/textbox"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_input"
+        style="@style/ButtonStyleLight"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text = "Submit"
+        android:padding="0dp"
+        android:textSize="19dp"
+        android:onClick="addReview"
+        />
+
+</RelativeLayout>

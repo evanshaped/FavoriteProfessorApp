@@ -15,9 +15,16 @@
         <item name="android:dividerHeight">2dp</item>
     </style>
 
-    <style name="ProfessorTitleDark" >
+    <style name="ProfessorTitleDark" parent="Base.Theme.FavoriteProfessorApp">
         <item name="android:textColor">@color/black</item>
         <item name="android:background">@color/blue</item>
         <item name="android:textSize">36sp</item>
+    </style>
+
+    <style name="RatingBarLight" parent="Base.Theme.FavoriteProfessorApp">
+        <item name="android:progressTint">@color/lightGreen</item>
+        <item name="android:rating">2.5</item>
+        <item name="android:scaleX">1.27</item>
+        <item name="android:scaleY">1.27</item>
     </style>
 </resources>
