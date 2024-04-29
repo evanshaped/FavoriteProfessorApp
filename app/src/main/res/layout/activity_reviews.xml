@@ -8,22 +8,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="Professors"
-        android:id="@+id/professor_search"
+        android:text="Professor Name"
+        android:id="@+id/professor_searched"
         android:textSize="36sp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#F00"
-        android:layout_below="@+id/professor_search"/>
+        android:layout_below="@+id/professor_searched"/>
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/professor_list"
+        android:id="@+id/review_list"
         android:divider="#FF00"
         android:dividerHeight="2dp"
-        android:layout_below="@+id/professor_search" />
+        android:layout_below="@+id/professor_searched" />
 
 </RelativeLayout>

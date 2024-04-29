@@ -1,5 +1,6 @@
 package com.example.favoriteprofessorapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
@@ -23,7 +24,7 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        listView = findViewById(R.id.list_view)
+        listView = findViewById(R.id.professor_list)
 
         textView = findViewById(R.id.professor_search)
         textView.text = searched_class + " Professors"
@@ -31,10 +32,8 @@ class SearchActivity : AppCompatActivity() {
         var valueObject = MainActivity.classes_snapshot?.value
         if (valueObject != null) {
             var value: String = valueObject.toString()
-            Log.w("MainActivity", value)
             var jsonObject : JSONObject = JSONObject(value)
             displayProfessors(jsonObject)
-            //Log.w("MainActivity", value)
         }
     }
 
@@ -46,9 +45,7 @@ class SearchActivity : AppCompatActivity() {
         // add professors to Professor list if not already in it
         for (i in 0 until jsonArray.length()) {
             var name = jsonArray.getString(i)
-            //Log.w("MainActivity", name)
             if (!MainActivity.professors.checkForProfessor(name)) {
-                Log.w("MainActivity", name)
                 MainActivity.professors.addProfessor(Professor(name))
 
             }
@@ -66,10 +63,14 @@ class SearchActivity : AppCompatActivity() {
 
     inner class ListItemHandler : AdapterView.OnItemClickListener {
         override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-            //Log.w("MainActivity", "clicked item # " + p2)
-            var clicked_professor : String = returned_professors.get(p2)
-            Log.w("MainActivity", clicked_professor + " was clicked")
+            clicked_professor = returned_professors.get(p2)
+            var myIntent : Intent = Intent(this@SearchActivity, ReviewActivity::class.java)
+            startActivity(myIntent)
         }
 
+    }
+
+    companion object {
+        var clicked_professor = ""
     }
 }

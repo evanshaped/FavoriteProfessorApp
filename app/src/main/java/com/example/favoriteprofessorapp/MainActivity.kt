@@ -37,22 +37,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun loadSearchResults() {
-        var myIntent : Intent = Intent(this, SearchActivity::class.java)
-        startActivity(myIntent)
+        var searchIntent : Intent = Intent(this, SearchActivity::class.java)
+        startActivity(searchIntent)
     }
 
     inner class ClassesListener : ValueEventListener {
-        var valueObject : Any? = null
         override fun onDataChange(snapshot: DataSnapshot) {
             classes_snapshot = snapshot
             var key : String? = snapshot.key
-            valueObject = snapshot.value
+            var valueObject = snapshot.value
             if (valueObject != null) {
                 var value : String = valueObject.toString()
                 var jsonObject : JSONObject = JSONObject(value)
                 var jsonArray : JSONArray = jsonObject.getJSONArray("CMSC320")
                 var professor1 : String = jsonArray.getString(0)
-                //Log.w("MainActivity", "Professor: " + professor1)
 
                 // this will eventually be called based on when the user clicks search
                 // but just keeping it here for now to get it to work
@@ -69,13 +67,14 @@ class MainActivity : AppCompatActivity() {
 
     inner class ProfessorListener : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
+            professors_snapshot = snapshot
             var key : String? = snapshot.key
             var valueObject : Any? = snapshot.value
             if (valueObject != null) {
                 var value : String = valueObject.toString()
                 var jsonObject : JSONObject = JSONObject(value)
-                var jsonObject2 : JSONObject = jsonObject.getJSONObject("Nelson")
-                var jsonArray : JSONArray = jsonObject2.getJSONArray("Review")
+                var jsonObject2 : JSONObject = jsonObject.getJSONObject("Nelson Padua-Perez")
+                var jsonArray : JSONArray = jsonObject2.getJSONArray("Reviews")
                 var review1 : String = jsonArray.getString(0)
             } else {
                 Log.w("MainActivity", "No value found")
@@ -89,6 +88,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         var classes_snapshot : DataSnapshot? = null
+        var professors_snapshot : DataSnapshot? = null
         lateinit var professors : Professors
     }
 }

@@ -25,6 +25,10 @@
         <activity android:name=".SearchActivity">
 
         </activity>
+
+        <activity android:name=".ReviewActivity">
+
+        </activity>
     </application>
 
 </manifest>
