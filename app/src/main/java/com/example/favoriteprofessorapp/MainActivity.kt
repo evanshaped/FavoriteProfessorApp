@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -86,6 +87,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //    fun goHome{
+//      var myIntent : Intent = Intent(this@MainActivity, MainActivity::class.java)
+//      startActivity(myIntent)
+//    }
+//
+//    fun goFavs{
+//      var myIntent : Intent = Intent(this@MainActivity, Favorites::class.java)
+//      startActivity(myIntent)
+//    }
+
+    fun goReview(v: View){
+        var myIntent : Intent = Intent(this@MainActivity, AddReview::class.java)
+        startActivity(myIntent)
+    }
     companion object {
         var classes_snapshot : DataSnapshot? = null
         var professors_snapshot : DataSnapshot? = null

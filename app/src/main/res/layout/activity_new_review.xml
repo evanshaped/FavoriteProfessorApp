@@ -2,16 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <TextView
+        android:id="@+id/title"
+        style="@style/ProfessorTitleLight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Write a Review for Professor"
-        android:paddingTop="3dp"
         android:paddingLeft="10dp"
-        android:textSize="25dp"
-        style="@style/ProfessorTitleLight"
-        android:id="@+id/title"
-        />
+        android:paddingTop="3dp"
+        android:text="Write a Review for Professor"
+        android:textSize="25dp" />
 
     <RatingBar
         android:layout_width="wrap_content"
@@ -52,4 +52,5 @@
         android:onClick="addReview"
         />
 
+    <include layout="@layout/activity_nav_bar"/>
 </RelativeLayout>

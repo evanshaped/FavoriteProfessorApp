@@ -47,5 +47,6 @@
         android:id="@+id/newReview"
         android:onClick="processReview"
         />
+    <include layout="@layout/activity_nav_bar"/>
     />
 </RelativeLayout>

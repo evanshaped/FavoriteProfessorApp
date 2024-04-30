@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="450dp"
+        android:layout_height="65dp"
+        android:background="@color/purple"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/bottom"
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ho"
+        android:scaleY="1.23"
+        android:scaleX=".9"
+        android:layout_alignLeft="@+id/bottom"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="720dp"
+        android:onClick="goHome"
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/star"
+        android:scaleY="1"
+        android:scaleX=".6"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="720dp"
+        android:onClick="goFavs"
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/thought"
+        android:scaleY=".9"
+        android:scaleX=".5"
+        android:layout_marginTop="715dp"
+        android:layout_alignRight="@+id/bottom"
+        android:layout_marginRight="20dp"
+        android:onClick="goReview"
+        />
+
+</RelativeLayout>
+
+
+

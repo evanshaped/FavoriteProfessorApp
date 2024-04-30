@@ -25,5 +25,5 @@
         android:id="@+id/professor_list"
         style="@style/DividerStyleLight"
         android:layout_below="@+id/professor_search" />
-
+    <include layout="@layout/activity_nav_bar"/>
 </RelativeLayout>
