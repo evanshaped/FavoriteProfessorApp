@@ -3,11 +3,13 @@ package com.example.favoriteprofessorapp
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONArray
 import org.json.JSONObject
@@ -36,17 +38,23 @@ class ReviewActivity : AppCompatActivity() {
     }
 
     fun displayReviews(jsonObject : JSONObject) {
+        Log.w("MainActivity", "in display reviews")
         // get the list of reviews to display in list view
         var jsonObject2 : JSONObject = jsonObject.getJSONObject(SearchActivity.clicked_professor)
         var jsonReviewsArray : JSONArray = jsonObject2.getJSONArray("Reviews")
-        var jsonRatingsArray : JSONArray = jsonObject2.getJSONArray("Reviews")
+        var jsonRatingsArray : JSONArray = jsonObject2.getJSONArray("Ratings")
+        var ratingsImages : ArrayList<Int> = ArrayList<Int>()
 
         for (i in 0 until jsonReviewsArray.length()) {
             reviews.add(jsonReviewsArray.getString(i))
             ratings.add(jsonRatingsArray.getString(i))
+            ratingsImages.add(R.drawable.five_star)
         }
 
-        var adapter : ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_list_item_1, reviews)
+        //var adapter : ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_list_item_1, reviews)
+        //listView.adapter = adapter
+
+        var adapter : CustomListAdapter = CustomListAdapter(this, reviews, ratingsImages)
         listView.adapter = adapter
     }
 

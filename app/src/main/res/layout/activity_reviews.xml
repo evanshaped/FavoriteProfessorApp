@@ -27,6 +27,7 @@
         android:layout_marginTop="75dp"
         android:background="@color/blue"
         />
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,5 +49,4 @@
         android:onClick="processReview"
         />
     <include layout="@layout/activity_nav_bar"/>
-    />
 </RelativeLayout>
