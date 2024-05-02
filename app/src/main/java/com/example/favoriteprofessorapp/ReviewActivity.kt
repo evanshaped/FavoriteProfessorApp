@@ -43,18 +43,13 @@ class ReviewActivity : AppCompatActivity() {
         var jsonObject2 : JSONObject = jsonObject.getJSONObject(SearchActivity.clicked_professor)
         var jsonReviewsArray : JSONArray = jsonObject2.getJSONArray("Reviews")
         var jsonRatingsArray : JSONArray = jsonObject2.getJSONArray("Ratings")
-        var ratingsImages : ArrayList<Int> = ArrayList<Int>()
 
         for (i in 0 until jsonReviewsArray.length()) {
             reviews.add(jsonReviewsArray.getString(i))
             ratings.add(jsonRatingsArray.getString(i))
-            ratingsImages.add(R.drawable.five_star)
         }
 
-        //var adapter : ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_list_item_1, reviews)
-        //listView.adapter = adapter
-
-        var adapter : CustomListAdapter = CustomListAdapter(this, reviews, ratingsImages)
+        var adapter : CustomListAdapter = CustomListAdapter(this, reviews)
         listView.adapter = adapter
     }
 

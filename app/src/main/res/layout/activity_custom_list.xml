@@ -4,23 +4,24 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/list_icon"/>
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:id="@+id/list_icon"
+        android:layout_gravity="center"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="description"
+        android:layout_height="wrap_content"
         android:id="@+id/list_description"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>
 
