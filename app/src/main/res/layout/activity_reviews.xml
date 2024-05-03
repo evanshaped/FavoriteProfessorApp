@@ -37,6 +37,26 @@
         style="@style/DividerStyleLight"
         android:layout_below="@+id/professor_searched" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/average_rating"
+        android:layout_toLeftOf="@+id/newReview"
+        android:layout_alignBottom="@+id/newReview"
+        android:textSize="36sp"
+        android:text="4.55"
+        android:textColor="@color/purple"
+        android:layout_marginEnd="26dp"
+        android:layout_marginBottom="12dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Avg. Rating"
+        android:layout_below="@+id/average_rating"
+        android:layout_alignLeft="@+id/average_rating"
+        android:layout_marginTop="-20dp" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,5 +68,16 @@
         android:id="@+id/newReview"
         android:onClick="processReview"
         />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/add_to_favorites"
+        android:layout_toRightOf="@+id/newReview"
+        android:layout_alignTop="@+id/newReview"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="40dp"
+        />
+
     <include layout="@layout/activity_nav_bar"/>
 </RelativeLayout>

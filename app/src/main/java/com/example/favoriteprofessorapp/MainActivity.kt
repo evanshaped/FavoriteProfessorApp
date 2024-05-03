@@ -1,6 +1,8 @@
 package com.example.favoriteprofessorapp
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -33,10 +35,10 @@ class MainActivity : AppCompatActivity() {
         professors_db.addValueEventListener(professor_listener)
 
         professors = Professors()
+        favorites = Professors()
 
         loadSearchResults()
     }
-
     fun loadSearchResults() {
         var searchIntent : Intent = Intent(this, SearchActivity::class.java)
         startActivity(searchIntent)
@@ -105,5 +107,6 @@ class MainActivity : AppCompatActivity() {
         var classes_snapshot : DataSnapshot? = null
         var professors_snapshot : DataSnapshot? = null
         lateinit var professors : Professors
+        lateinit var favorites : Professors
     }
 }
