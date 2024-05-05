@@ -27,4 +27,12 @@ class Professors {
         }
         return null
     }
+
+    override fun toString(): String {
+        var ret = ""
+        for (i in 0..<professors.size) {
+            ret += professors[i].getName() + " "
+        }
+        return ret
+    }
 }

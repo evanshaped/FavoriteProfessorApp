@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.SearchView
+import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -19,6 +21,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var classes_db : DatabaseReference
     private lateinit var professors_db : DatabaseReference
     private lateinit var classes_listener : ClassesListener
+    private lateinit var search_bar_listener : SearchView.OnQueryTextListener
+    private lateinit var search_bar : SearchView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -30,14 +34,21 @@ class MainActivity : AppCompatActivity() {
 
         classes_listener = ClassesListener()
         classes_db.addValueEventListener(classes_listener)
+        classes_db.orderByValue()
 
         var professor_listener : ProfessorListener = ProfessorListener()
         professors_db.addValueEventListener(professor_listener)
 
+        search_bar = findViewById(R.id.search_bar)
+        search_bar.isSubmitButtonEnabled = true
+        search_bar_listener = SearchBarListener()
+        search_bar.setOnQueryTextListener(search_bar_listener)
+        
+
         professors = Professors()
         favorites = Professors()
 
-        loadSearchResults()
+        //loadSearchResults()
     }
     fun loadSearchResults() {
         var searchIntent : Intent = Intent(this, SearchActivity::class.java)
@@ -46,18 +57,27 @@ class MainActivity : AppCompatActivity() {
 
     inner class ClassesListener : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
+            professors = Professors()
             classes_snapshot = snapshot
             var key : String? = snapshot.key
             var valueObject = snapshot.value
             if (valueObject != null) {
                 var value : String = valueObject.toString()
                 var jsonObject : JSONObject = JSONObject(value)
-                var jsonArray : JSONArray = jsonObject.getJSONArray("CMSC320")
-                var professor1 : String = jsonArray.getString(0)
+                try {
+                    var jsonArray : JSONArray = jsonObject.getJSONArray(search_query)
+                    for (i in 0..jsonArray.length() - 1) {
+                        var professor = Professor(jsonArray.getString(i))
+                        professors.addProfessor(professor)
+                    }
+                    Log.w("MainActivity", professors.toString())
+                    loadSearchResults()
+                } catch (e : Exception) {
+                    Log.w("MainActivity", "No value found for " + search_query)
+                }
 
                 // this will eventually be called based on when the user clicks search
                 // but just keeping it here for now to get it to work
-                loadSearchResults()
             } else {
                 Log.w("MainActivity", "No value found")
             }
@@ -65,6 +85,24 @@ class MainActivity : AppCompatActivity() {
 
         override fun onCancelled(error: DatabaseError) {
             Log.w("MainActivity", "reading failure: " + error.message)
+        }
+    }
+
+    inner class SearchBarListener : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            Log.w("MainActivity", "text submitted")
+            if (!query.equals("Search for a class...") && query != null) {
+                Log.w("MainActivity", "QUERY IS " + query)
+                search_query = query
+                classes_listener.onDataChange(classes_snapshot!!)
+                return true
+            } else {
+                return false
+            }
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            return false
         }
     }
 
@@ -108,5 +146,6 @@ class MainActivity : AppCompatActivity() {
         var professors_snapshot : DataSnapshot? = null
         lateinit var professors : Professors
         lateinit var favorites : Professors
+        var search_query : String = "Search for a class..."
     }
 }
