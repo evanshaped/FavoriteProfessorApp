@@ -120,10 +120,10 @@ class ReviewActivity : AppCompatActivity() {
         var myIntent : Intent = Intent(this@ReviewActivity, AddReview::class.java)
         startActivity(myIntent)
     }
-//    fun goHome{
-//      var myIntent : Intent = Intent(this@ReviewActivity, MainActivity::class.java)
-//      startActivity(myIntent)
-//    }
+    fun goHome(v : View){
+      var myIntent : Intent = Intent(this@ReviewActivity, MainActivity::class.java)
+      startActivity(myIntent)
+    }
 //
 //    fun goFavs{
 //      var myIntent : Intent = Intent(this@ReviewActivity, Favorites::class.java)

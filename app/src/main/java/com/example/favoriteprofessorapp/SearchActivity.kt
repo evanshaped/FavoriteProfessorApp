@@ -69,11 +69,11 @@ class SearchActivity : AppCompatActivity() {
         }
 
     }
-    //    fun goHome{
-//      var myIntent : Intent = Intent(this@SearchActivity, MainActivity::class.java)
-//      startActivity(myIntent)
-//    }
-//
+    fun goHome(v : View){
+      var myIntent : Intent = Intent(this@SearchActivity, MainActivity::class.java)
+      startActivity(myIntent)
+    }
+
 //    fun goFavs{
 //      var myIntent : Intent = Intent(this@SearchActivity, Favorites::class.java)
 //      startActivity(myIntent)

@@ -181,10 +181,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    //    fun goHome{
-//      var myIntent : Intent = Intent(this@MainActivity, MainActivity::class.java)
-//      startActivity(myIntent)
-//    }
+    fun goHome(v: View){
+      var myIntent : Intent = Intent(this@MainActivity, MainActivity::class.java)
+      startActivity(myIntent)
+    }
 //
 //    fun goFavs{
 //      var myIntent : Intent = Intent(this@MainActivity, Favorites::class.java)
