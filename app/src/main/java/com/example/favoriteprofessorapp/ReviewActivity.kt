@@ -7,11 +7,13 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -36,6 +38,8 @@ class ReviewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reviews)
+        var button : ImageButton = findViewById(R.id.review)
+        button.isVisible = true
 
         textView = findViewById(R.id.professor_searched)
         textView.setText(SearchActivity.clicked_professor)
@@ -120,16 +124,15 @@ class ReviewActivity : AppCompatActivity() {
         var myIntent : Intent = Intent(this@ReviewActivity, AddReview::class.java)
         startActivity(myIntent)
     }
+
     fun goHome(v : View){
       var myIntent : Intent = Intent(this@ReviewActivity, MainActivity::class.java)
       startActivity(myIntent)
     }
-//
-//    fun goFavs{
-//      var myIntent : Intent = Intent(this@ReviewActivity, Favorites::class.java)
+    fun goFavs(v:View){
+//      var myIntent : Intent = Intent(this@AddReview, Favorites::class.java)
 //      startActivity(myIntent)
-//    }
-
+    }
 
     fun goReview(v: View){
         var myIntent : Intent = Intent(this@ReviewActivity, AddReview::class.java)

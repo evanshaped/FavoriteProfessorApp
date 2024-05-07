@@ -6,9 +6,11 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -21,6 +23,9 @@ class AddReview : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_review)
+        var button : ImageButton = findViewById(R.id.review)
+        button.isVisible = true
+
         var firebase : FirebaseDatabase = FirebaseDatabase.getInstance()
         prof_db = firebase.getReference("Professors")
 
@@ -47,14 +52,19 @@ class AddReview : AppCompatActivity() {
     }
 
     fun goHome(v: View){
-      var myIntent : Intent = Intent(this@AddReview, MainActivity::class.java)
-      startActivity(myIntent)
+        Log.w("MainActivity","Going home!!")
+        try{
+        var myIntent : Intent = Intent(this@AddReview, MainActivity::class.java)
+        startActivity(myIntent)
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Error navigating to MainActivity: ${e.message}")
+        }
     }
-//
-//    fun goFavs{
+
+    fun goFavs(v:View){
 //      var myIntent : Intent = Intent(this@AddReview, Favorites::class.java)
 //      startActivity(myIntent)
-//    }
+    }
 
     fun goReview(v: View){
         var myIntent : Intent = Intent(this@AddReview, AddReview::class.java)
