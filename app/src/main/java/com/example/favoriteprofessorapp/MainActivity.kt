@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.RelativeLayout
 import android.widget.SearchView
+import android.widget.TextView
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -23,6 +25,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var classes_listener : ClassesListener
     private lateinit var search_bar_listener : SearchView.OnQueryTextListener
     private lateinit var search_bar : SearchView
+    private lateinit var preferences : SharedPreferences
+    private val BRIGHTNESS_PREFERENCE_KEY : String = "brightness"
+    private lateinit var last_search : String
+    private val LAST_SEARCH_KEY : String = "last_search"
+    private lateinit var last_search_view : TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -43,7 +51,11 @@ class MainActivity : AppCompatActivity() {
         search_bar.isSubmitButtonEnabled = true
         search_bar_listener = SearchBarListener()
         search_bar.setOnQueryTextListener(search_bar_listener)
+
+        last_search_view = findViewById(R.id.lastSearch)
         
+        getBrightnessPreference()
+        last_search_view.text = "Last search: " + getLastSearch()
 
         professors = Professors()
         favorites = Professors()
@@ -53,6 +65,47 @@ class MainActivity : AppCompatActivity() {
     fun loadSearchResults() {
         var searchIntent : Intent = Intent(this, SearchActivity::class.java)
         startActivity(searchIntent)
+    }
+
+    fun getBrightnessPreference() {
+        preferences = this.getSharedPreferences(this.packageName + "_preferences", Context.MODE_PRIVATE)
+        brightness = preferences.getString(BRIGHTNESS_PREFERENCE_KEY, "light").toString()
+    }
+
+    fun setBrightnessPreference() {
+        var editor = preferences.edit()
+        editor.putString(BRIGHTNESS_PREFERENCE_KEY, brightness)
+        editor.commit()
+    }
+
+    fun getLastSearch() : String {
+        preferences = this.getSharedPreferences(this.packageName + "_preferences", Context.MODE_PRIVATE)
+        last_search = preferences.getString(LAST_SEARCH_KEY, "").toString()
+        return last_search
+    }
+
+    fun setLastSearch(query : String) {
+        var editor = preferences.edit()
+        editor.putString(LAST_SEARCH_KEY, query)
+        editor.commit()
+        Log.w("MainActivity", query)
+        last_search_view.text = "Last search: " + query
+    }
+
+    fun setBright(mode : String) {
+        if (mode === "dark") {
+            brightness = "dark"
+            findViewById<TextView>(R.id.welcome).setTextAppearance(R.style.ProfessorTitleDark)
+            findViewById<RelativeLayout>(R.id.background).setBackgroundColor(resources.getColor(R.color.black, null))
+            findViewById<TextView>(R.id.lastSearch).setTextAppearance(R.style.TextDark)
+            setBrightnessPreference()
+        } else if (mode === "light") {
+            brightness = "light"
+            findViewById<TextView>(R.id.welcome).setTextAppearance(R.style.ProfessorTitleLight)
+            findViewById<RelativeLayout>(R.id.background).setBackgroundColor(resources.getColor(R.color.white, null))
+            findViewById<TextView>(R.id.lastSearch).setTextAppearance(R.style.TextLight)
+            setBrightnessPreference()
+        }
     }
 
     inner class ClassesListener : ValueEventListener {
@@ -94,6 +147,7 @@ class MainActivity : AppCompatActivity() {
             if (!query.equals("Search for a class...") && query != null) {
                 Log.w("MainActivity", "QUERY IS " + query)
                 search_query = query
+                setLastSearch(query)
                 classes_listener.onDataChange(classes_snapshot!!)
                 return true
             } else {
@@ -147,5 +201,6 @@ class MainActivity : AppCompatActivity() {
         lateinit var professors : Professors
         lateinit var favorites : Professors
         var search_query : String = "Search for a class..."
+        var brightness : String = "light"
     }
 }

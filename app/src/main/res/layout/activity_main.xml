@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    style="@style/Light"
+    android:id="@+id/background">
 
     <TextView
         android:layout_width="match_parent"
@@ -19,11 +21,16 @@
         android:queryHint="@string/search_hint"
         android:id="@+id/search_bar"
         android:iconifiedByDefault="false"
+        style="@style/SearchBarLight"
         android:layout_below="@+id/welcome" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/search_bar"
+        android:text="Last search: "
+        style="@style/TextLight"
+        android:id="@+id/lastSearch"
         />
 
     <include layout="@layout/activity_nav_bar"/>
