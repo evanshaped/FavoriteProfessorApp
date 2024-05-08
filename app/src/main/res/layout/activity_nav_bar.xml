@@ -21,29 +21,32 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="720dp"
         android:onClick="goHome"
-        />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/star"
-        android:scaleY="1"
-        android:scaleX=".6"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="720dp"
-        android:onClick="goFavs"
+        android:id="@+id/home"
         />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/thought"
+        android:scaleY="1"
+        android:scaleX=".6"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="720dp"
+        android:onClick="goReview"
+        android:id="@+id/review"
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/star"
         android:scaleY=".9"
         android:scaleX=".5"
         android:layout_marginTop="715dp"
         android:layout_alignRight="@+id/bottom"
         android:layout_marginRight="20dp"
-        android:onClick="goReview"
+        android:onClick="goFavs"
+        android:id="@+id/star"
         />
 
 </RelativeLayout>

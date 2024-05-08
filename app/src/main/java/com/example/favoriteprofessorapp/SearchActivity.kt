@@ -7,9 +7,11 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -24,7 +26,14 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+        var button : ImageButton = findViewById(R.id.review)
+        button.isVisible = false
 
+        var button2 : ImageButton = findViewById(R.id.star)
+        button2.x = -60.0f
+
+        var button3 : ImageButton = findViewById(R.id.home)
+        button3.x = 80.0f
         listView = findViewById(R.id.professor_list)
 
         textView = findViewById(R.id.professor_search)
@@ -80,14 +89,16 @@ class SearchActivity : AppCompatActivity() {
 
     }
 
-    fun goHome(v:View){
-      finish()
+    fun goHome(v : View){
+        Log.w("MainAcitivty","home from search activity")
+        var myIntent : Intent = Intent(this@SearchActivity, MainActivity::class.java)
+        startActivity(myIntent)
     }
 
-//    fun goFavs{
-//      var myIntent : Intent = Intent(this@SearchActivity, Favorites::class.java)
+    fun goFavs(v:View){
+//      var myIntent : Intent = Intent(this@AddReview, Favorites::class.java)
 //      startActivity(myIntent)
-//    }
+    }
 
     fun goReview(v: View){
         var myIntent : Intent = Intent(this@SearchActivity, AddReview::class.java)

@@ -7,9 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.SearchView
 import android.widget.TextView
+import androidx.core.view.isVisible
+import androidx.core.view.marginLeft
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -36,6 +39,14 @@ class MainActivity : AppCompatActivity() {
         Log.w("MainActivity", "starting MainActivity")
 
         setContentView(R.layout.activity_main)
+        var button : ImageButton = findViewById(R.id.review)
+        button.isVisible = false
+
+        var button2 : ImageButton = findViewById(R.id.star)
+        button2.x = -90.0f
+
+        var button3 : ImageButton = findViewById(R.id.home)
+        button3.x = 80.0f
 
         getFavoritesFromSharedPreferences()
         professors = Professors()
@@ -143,7 +154,6 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                     Log.w("MainActivity", professors.toString())
-                    loadSearchResults()
                 } catch (e : Exception) {
                     Log.w("MainActivity", "No value found for " + search_query)
                 }
@@ -168,6 +178,7 @@ class MainActivity : AppCompatActivity() {
                 search_query = query
                 setLastSearch(query)
                 classes_listener.onDataChange(classes_snapshot!!)
+                loadSearchResults()
                 return true
             } else {
                 return false
@@ -200,15 +211,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    //    fun goHome{
-//      var myIntent : Intent = Intent(this@MainActivity, MainActivity::class.java)
+    fun goHome(v: View){
+      var myIntent : Intent = Intent(this@MainActivity, MainActivity::class.java)
+      startActivity(myIntent)
+    }
+    fun goFavs(v:View){
+//      var myIntent : Intent = Intent(this@AddReview, Favorites::class.java)
 //      startActivity(myIntent)
-//    }
-//
-//    fun goFavs{
-//      var myIntent : Intent = Intent(this@MainActivity, Favorites::class.java)
-//      startActivity(myIntent)
-//    }
+    }
 
     fun goReview(v: View){
         var myIntent : Intent = Intent(this@MainActivity, AddReview::class.java)
