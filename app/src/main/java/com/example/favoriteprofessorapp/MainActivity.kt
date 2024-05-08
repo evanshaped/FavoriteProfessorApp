@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.w("MainActivity", "starting MainActivity")
 
-        initializeFavoriteProfessorsFromSharedPreferences()
+        setFavoriteProfessorsFromSharedPreferences()
 
         setContentView(R.layout.activity_main)
         var button : ImageButton = findViewById(R.id.review)
@@ -72,18 +72,19 @@ class MainActivity : AppCompatActivity() {
         //loadSearchResults()
     }
 
-    fun initializeFavoriteProfessorsFromSharedPreferences() {
+    fun setFavoriteProfessorsFromSharedPreferences() {
+        favoriteProfessors = Professors()
         val sharedPreferences = applicationContext.getSharedPreferences(applicationContext.packageName + "_preferences", Context.MODE_PRIVATE)
         val savedString = sharedPreferences.getString(FAVORITES_PREFERENCE_KEY, "")
-            if (savedString != "") {
-                val arrayOfFavoriteProfNames: Array<String> = savedString?.split(",")?.toTypedArray() ?: arrayOf()
-                for (profName in arrayOfFavoriteProfNames) {
-                    Log.w("MainActivity", "Found favorited prof in shared prefs: $profName")
-                    favoriteProfessors.addProfessor(Professor(profName))
-                }
-            } else {
-                Log.w("MainActivity", "No favorited profs found in shared preferences")
+        if (savedString != "") {
+            val arrayOfFavoriteProfNames: Array<String> = savedString?.split(",")?.toTypedArray() ?: arrayOf()
+            for (profName in arrayOfFavoriteProfNames) {
+                Log.w("MainActivity", "Found favorited prof in shared prefs: $profName")
+                favoriteProfessors.addProfessor(profName)
             }
+        } else {
+            Log.w("MainActivity", "No favorited profs found in shared preferences")
+        }
     }
     fun loadSearchResults() {
         var searchIntent : Intent = Intent(this, SearchActivity::class.java)
@@ -147,9 +148,8 @@ class MainActivity : AppCompatActivity() {
                     Log.w("MainActivity", "Adding professors for query $search_query...")
                     for (i in 0..jsonArray.length() - 1) {
                         val newProfName = jsonArray.getString(i)
-                        val newProf = Professor(newProfName)
-                        professorsForClassQuery.addProfessor(newProf)
-                        Log.w("MainActivity", "Added professor ${newProf.getName()}")
+                        professorsForClassQuery.addProfessor(newProfName)
+                        Log.w("MainActivity", "Added professor $newProfName")
                     }
                 } catch (e : Exception) {
                     Log.w("MainActivity", "Query not found: $search_query")

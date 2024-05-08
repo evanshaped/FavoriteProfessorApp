@@ -23,7 +23,6 @@ import java.math.RoundingMode
 
 class ReviewActivity : AppCompatActivity() {
     private lateinit var profName: String
-    private lateinit var professor : Professor
     private lateinit var textView : TextView
     private lateinit var listView : ListView
     private lateinit var favoritesImage : ImageView
@@ -41,7 +40,6 @@ class ReviewActivity : AppCompatActivity() {
         button.isVisible = true
 
         profName = intent.getStringExtra("professorName")!!
-        professor = MainActivity.professorsForClassQuery.getProfessor(profName)!! // This assertion should never go wrong (?)
 
         Log.w(RA, "Starting ReviewActivity for professor: " + profName)
 
@@ -54,7 +52,7 @@ class ReviewActivity : AppCompatActivity() {
         favoritesImage = findViewById(R.id.add_to_favorites)
 
         // determine whether professor is already favorited or not
-        if (MainActivity.favoriteProfessors.checkForProfessor(profName)) {
+        if (MainActivity.favoriteProfessors.getProfessor(profName) != null) {
             favorited = true
             favoritesImage.setImageResource(R.drawable.red_star)
         } else {
@@ -76,18 +74,18 @@ class ReviewActivity : AppCompatActivity() {
         if (favorited) {
             // unfavorite and remove from favorites
             favoritesImage.setImageResource(R.drawable.pink_outline)
-            MainActivity.favoriteProfessors.removeProfessor(professor)
+            MainActivity.favoriteProfessors.removeProfessor(profName)
             MainActivity.favoriteProfessors.updateProfessorsPreferences(MainActivity.FAVORITES_PREFERENCE_KEY, applicationContext)
-            var toast : Toast = Toast.makeText(this, SearchActivity.clicked_professor + " removed from favorites", Toast.LENGTH_SHORT)
+            var toast : Toast = Toast.makeText(this, profName + " removed from favorites", Toast.LENGTH_SHORT)
             toast.show()
             favorited = false
 
         } else {
             // favorite and add to favorites
             favoritesImage.setImageResource(R.drawable.red_star)
-            MainActivity.favoriteProfessors.addProfessor(professor)
+            MainActivity.favoriteProfessors.addProfessor(profName)
             MainActivity.favoriteProfessors.updateProfessorsPreferences(MainActivity.FAVORITES_PREFERENCE_KEY, applicationContext)
-            var toast : Toast = Toast.makeText(this, SearchActivity.clicked_professor + " added to favorites", Toast.LENGTH_SHORT)
+            var toast : Toast = Toast.makeText(this, profName + " added to favorites", Toast.LENGTH_SHORT)
             toast.show()
             favorited = true
             // show interstitial ad
@@ -99,9 +97,9 @@ class ReviewActivity : AppCompatActivity() {
     }
 
     fun displayReviews(jsonObject : JSONObject) {
-        Log.w("MainActivity", "in display reviews")
+        Log.w("ReviewActivity", "Fetching review info for professor")
         // get the list of reviews to display in list view
-        var jsonObject2 : JSONObject = jsonObject.getJSONObject(SearchActivity.clicked_professor)
+        var jsonObject2 : JSONObject = jsonObject.getJSONObject(profName)
         var jsonReviewsArray : JSONArray = jsonObject2.getJSONArray("Reviews")
         var jsonRatingsArray : JSONArray = jsonObject2.getJSONArray("Ratings")
         var sum : Double = 0.0

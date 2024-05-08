@@ -58,9 +58,8 @@ class SearchActivity : AppCompatActivity() {
         // add professors to Professor list if not already in it
         for (i in 0 until jsonArray.length()) {
             var name = jsonArray.getString(i)
-            if (!MainActivity.professorsForClassQuery.checkForProfessor(name)) {
-                val newProf = Professor(name)
-                MainActivity.professorsForClassQuery.addProfessor(newProf)
+            if (MainActivity.professorsForClassQuery.getProfessor(name) == null) {
+                MainActivity.professorsForClassQuery.addProfessor(name)
             }
             returned_professors.add(name)
         }
@@ -76,10 +75,10 @@ class SearchActivity : AppCompatActivity() {
 
     inner class ListItemHandler : AdapterView.OnItemClickListener {
         override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-            clicked_professor = returned_professors.get(p2)
-            Log.w(SA, "User clicked professor: " + clicked_professor)
+            val profName = returned_professors.get(p2)
+            Log.w(SA, "User clicked professor: " + profName)
             var myIntent : Intent = Intent(this@SearchActivity, ReviewActivity::class.java)
-            myIntent.putExtra("professorName", clicked_professor)
+            myIntent.putExtra("professorName", profName)
             startActivity(myIntent)
         }
 
@@ -99,8 +98,5 @@ class SearchActivity : AppCompatActivity() {
     fun goReview(v: View){
         var myIntent : Intent = Intent(this@SearchActivity, AddReview::class.java)
         startActivity(myIntent)
-    }
-    companion object {
-        var clicked_professor = ""
     }
 }

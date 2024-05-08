@@ -4,31 +4,22 @@ import android.content.Context
 import android.util.Log
 
 class Professors {
-    private var professors : Array<Professor> = arrayOf<Professor>()
+    private var professors : ArrayList<String> = arrayListOf<String>()
 
-    fun checkForProfessor(name : String) : Boolean {
-        for (i in 0 until professors.size) {
-            if (professors.get(i).getName().equals(name)) {
-                return true
-            }
+    fun addProfessor(profName : String) {
+        professors.add(profName)
+    }
+
+    fun removeProfessor(profName : String) {
+        professors.remove(profName)
+    }
+
+    fun getProfessor(name : String) : String? {
+        if (professors.contains(name)) {
+            return name
+        } else {
+            return null
         }
-        return false
-    }
-
-    fun addProfessor(professor : Professor) {
-        professors += professor
-    }
-
-    fun removeProfessor(professor : Professor) {
-        professors = professors.filter{it != professor}.toTypedArray()
-    }
-
-    fun getProfessor(name : String) : Professor? {
-        for (i in 0..professors.size) {
-            if (professors.get(i).getName().equals(name))
-                return professors.get(i)
-        }
-        return null
     }
 
     // Used to store favortie professors in persistent data
@@ -43,17 +34,17 @@ class Professors {
     }
 
     fun getProfessorsPrefString(): String {
-        return professors.joinToString ( separator="," ) {it.getName()}
+        return professors.joinToString ( separator="," ) {it}
     }
 
     fun getProfessorNamesArray(): Array<String> {
-        return professors.map { it.getName() }.toTypedArray()
+        return professors.map { it }.toTypedArray()
     }
 
     override fun toString(): String {
         var ret = ""
         for (i in 0..<professors.size) {
-            ret += professors[i].getName() + " "
+            ret += professors[i] + " "
         }
         return ret
     }
