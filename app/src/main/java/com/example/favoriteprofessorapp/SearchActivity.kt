@@ -19,6 +19,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var textView : TextView
     private lateinit var listView : ListView
     private var returned_professors : ArrayList<String> = ArrayList<String>()
+    private val SA : String = "SearchActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +32,17 @@ class SearchActivity : AppCompatActivity() {
 
         var valueObject = MainActivity.classes_snapshot?.value
         if (valueObject != null) {
+            Log.w(SA, "Found searched classes!")
             var value: String = valueObject.toString()
             var jsonObject : JSONObject = JSONObject(value)
             displayProfessors(jsonObject)
+        } else {
+            Log.w(SA, "Did not find the searched classes")
         }
     }
 
     fun displayProfessors(jsonObject : JSONObject) {
+        Log.w(SA, "Displaying professors...")
         // get list of professors for the given class
 
         var jsonArray : JSONArray = jsonObject.getJSONArray(searched_class)
@@ -46,8 +51,11 @@ class SearchActivity : AppCompatActivity() {
         for (i in 0 until jsonArray.length()) {
             var name = jsonArray.getString(i)
             if (!MainActivity.professors.checkForProfessor(name)) {
-                MainActivity.professors.addProfessor(Professor(name))
-
+                val newProf = Professor(name)
+                MainActivity.professors.addProfessor(newProf)
+                if (MainActivity.names_of_favorites_for_initializing.contains(name)) {
+                    MainActivity.favorites.addProfessor(newProf)
+                }
             }
             returned_professors.add(name)
         }
@@ -64,16 +72,18 @@ class SearchActivity : AppCompatActivity() {
     inner class ListItemHandler : AdapterView.OnItemClickListener {
         override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
             clicked_professor = returned_professors.get(p2)
+            Log.w(SA, "User clicked professor: " + clicked_professor)
             var myIntent : Intent = Intent(this@SearchActivity, ReviewActivity::class.java)
+            myIntent.putExtra("professorName", clicked_professor)
             startActivity(myIntent)
         }
 
     }
-    //    fun goHome{
-//      var myIntent : Intent = Intent(this@SearchActivity, MainActivity::class.java)
-//      startActivity(myIntent)
-//    }
-//
+
+    fun goHome(v:View){
+      finish()
+    }
+
 //    fun goFavs{
 //      var myIntent : Intent = Intent(this@SearchActivity, Favorites::class.java)
 //      startActivity(myIntent)

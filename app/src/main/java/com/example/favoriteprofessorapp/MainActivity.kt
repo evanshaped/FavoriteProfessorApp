@@ -33,8 +33,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.w("MainActivity", "starting MainActivity")
 
         setContentView(R.layout.activity_main)
+
+        getFavoritesFromSharedPreferences()
+        professors = Professors()
+        favorites = Professors()
 
         var firebase : FirebaseDatabase = FirebaseDatabase.getInstance()
         classes_db = firebase.getReference("Classes")
@@ -57,10 +62,18 @@ class MainActivity : AppCompatActivity() {
         getBrightnessPreference()
         last_search_view.text = "Last search: " + getLastSearch()
 
-        professors = Professors()
-        favorites = Professors()
+        Log.w("MainActivity", "ending MA onCreate")
 
         //loadSearchResults()
+    }
+
+    fun getFavoritesFromSharedPreferences() {
+        val sharedPreferences = applicationContext.getSharedPreferences(applicationContext.packageName + "_preferences", Context.MODE_PRIVATE)
+        val savedString = sharedPreferences.getString(FAVORITES_PREFERENCE_KEY, "")
+        if (savedString != "") {
+            names_of_favorites_for_initializing = savedString?.split(",")?.toTypedArray() ?: arrayOf()
+            names_of_favorites_for_initializing.forEach { profName -> Log.w("MainActivity", "Found favorited prof in shared prefs: $profName") }
+        }
     }
     fun loadSearchResults() {
         var searchIntent : Intent = Intent(this, SearchActivity::class.java)
@@ -88,9 +101,11 @@ class MainActivity : AppCompatActivity() {
         var editor = preferences.edit()
         editor.putString(LAST_SEARCH_KEY, query)
         editor.commit()
-        Log.w("MainActivity", query)
+        Log.w("MainActivity", "Shared prefs for Last Search set as: " + query)
         last_search_view.text = "Last search: " + query
     }
+
+
 
     fun setBright(mode : String) {
         if (mode === "dark") {
@@ -120,8 +135,12 @@ class MainActivity : AppCompatActivity() {
                 try {
                     var jsonArray : JSONArray = jsonObject.getJSONArray(search_query)
                     for (i in 0..jsonArray.length() - 1) {
-                        var professor = Professor(jsonArray.getString(i))
-                        professors.addProfessor(professor)
+                        val newProfName = jsonArray.getString(i)
+                        val newProf = Professor(newProfName)
+                        professors.addProfessor(newProf)
+                        if (names_of_favorites_for_initializing.contains(newProfName)) {
+                            favorites.addProfessor(newProf)
+                        }
                     }
                     Log.w("MainActivity", professors.toString())
                     loadSearchResults()
@@ -200,6 +219,8 @@ class MainActivity : AppCompatActivity() {
         var professors_snapshot : DataSnapshot? = null
         lateinit var professors : Professors
         lateinit var favorites : Professors
+        val FAVORITES_PREFERENCE_KEY : String = "favorites"
+        lateinit var names_of_favorites_for_initializing : Array<String>
         var search_query : String = "Search for a class..."
         var brightness : String = "light"
     }

@@ -1,6 +1,7 @@
 package com.example.favoriteprofessorapp
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -24,6 +25,8 @@ import org.json.JSONObject
 import java.math.RoundingMode
 
 class ReviewActivity : AppCompatActivity() {
+    private lateinit var profName: String
+    private lateinit var professor : Professor
     private lateinit var textView : TextView
     private lateinit var listView : ListView
     private lateinit var favoritesImage : ImageView
@@ -32,13 +35,19 @@ class ReviewActivity : AppCompatActivity() {
     private var reviews : ArrayList<String> = ArrayList<String>()
     private var ratings : ArrayList<String> = ArrayList<String>()
     private var ad : InterstitialAd? = null
+    private val RA : String = "ReviewActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reviews)
 
+        profName = intent.getStringExtra("professorName")!!
+        professor = MainActivity.professors.getProfessor(profName)!! // This assertion should never go wrong (?)
+
+        Log.w(RA, "Starting ReviewActivity for professor: " + profName)
+
         textView = findViewById(R.id.professor_searched)
-        textView.setText(SearchActivity.clicked_professor)
+        textView.setText(profName)
 
         listView = findViewById(R.id.review_list)
         averageRating = findViewById(R.id.average_rating)
@@ -46,7 +55,7 @@ class ReviewActivity : AppCompatActivity() {
         favoritesImage = findViewById(R.id.add_to_favorites)
 
         // determine whether professor is already favorited or not
-        if (MainActivity.favorites.checkForProfessor(SearchActivity.clicked_professor)) {
+        if (MainActivity.favorites.checkForProfessor(profName)) {
             favorited = true
             favoritesImage.setImageResource(R.drawable.red_star)
         } else {
@@ -68,25 +77,20 @@ class ReviewActivity : AppCompatActivity() {
         if (favorited) {
             // unfavorite and remove from favorites
             favoritesImage.setImageResource(R.drawable.pink_outline)
-            if (MainActivity.professors.getProfessor(SearchActivity.clicked_professor) != null) {
-                var professor =
-                    MainActivity.professors.getProfessor(SearchActivity.clicked_professor)
-                MainActivity.favorites.removeProfessor(professor!!)
-                var toast : Toast = Toast.makeText(this, SearchActivity.clicked_professor + " removed from favorites", Toast.LENGTH_SHORT)
-                toast.show()
-                favorited = false
-            }
+            MainActivity.favorites.removeProfessor(professor)
+            MainActivity.favorites.updateProfessorsPreferences(MainActivity.FAVORITES_PREFERENCE_KEY, applicationContext)
+            var toast : Toast = Toast.makeText(this, SearchActivity.clicked_professor + " removed from favorites", Toast.LENGTH_SHORT)
+            toast.show()
+            favorited = false
 
         } else {
             // favorite and add to favorites
             favoritesImage.setImageResource(R.drawable.red_star)
-            if (MainActivity.professors.getProfessor(SearchActivity.clicked_professor) != null) {
-                var professor = MainActivity.professors.getProfessor(SearchActivity.clicked_professor)
-                MainActivity.favorites.addProfessor(professor!!)
-                var toast : Toast = Toast.makeText(this, SearchActivity.clicked_professor + " added to favorites", Toast.LENGTH_SHORT)
-                toast.show()
-                favorited = true
-            }
+            MainActivity.favorites.addProfessor(professor)
+            MainActivity.favorites.updateProfessorsPreferences(MainActivity.FAVORITES_PREFERENCE_KEY, applicationContext)
+            var toast : Toast = Toast.makeText(this, SearchActivity.clicked_professor + " added to favorites", Toast.LENGTH_SHORT)
+            toast.show()
+            favorited = true
             // show interstitial ad
             var adUnitId : String = "ca-app-pub-3940256099942544/1033173712"
             var adRequest : AdRequest = AdRequest.Builder().build()
@@ -118,13 +122,13 @@ class ReviewActivity : AppCompatActivity() {
 
     fun processReview(v : View){
         var myIntent : Intent = Intent(this@ReviewActivity, AddReview::class.java)
+        myIntent.putExtra("professorName", profName)
         startActivity(myIntent)
     }
-//    fun goHome{
-//      var myIntent : Intent = Intent(this@ReviewActivity, MainActivity::class.java)
-//      startActivity(myIntent)
-//    }
-//
+    fun goHome(v: View){
+      finish()
+    }
+
 //    fun goFavs{
 //      var myIntent : Intent = Intent(this@ReviewActivity, Favorites::class.java)
 //      startActivity(myIntent)
@@ -132,6 +136,7 @@ class ReviewActivity : AppCompatActivity() {
 
 
     fun goReview(v: View){
+        // Goes to review page. Used by nav bar
         var myIntent : Intent = Intent(this@ReviewActivity, AddReview::class.java)
         startActivity(myIntent)
     }
