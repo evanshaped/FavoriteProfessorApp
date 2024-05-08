@@ -177,11 +177,11 @@ class MainActivity : AppCompatActivity() {
             var key : String? = snapshot.key
             var valueObject : Any? = snapshot.value
             if (valueObject != null) {
-                var value : String = valueObject.toString()
-                var jsonObject : JSONObject = JSONObject(value)
-                var jsonObject2 : JSONObject = jsonObject.getJSONObject("Nelson Padua-Perez")
-                var jsonArray : JSONArray = jsonObject2.getJSONArray("Reviews")
-                var review1 : String = jsonArray.getString(0)
+//                var value : String = valueObject.toString()
+//                var jsonObject : JSONObject = JSONObject(value)
+//                var jsonObject2 : JSONObject = jsonObject.getJSONObject("Nelson Padua-Perez")
+//                var jsonArray : JSONArray = jsonObject2.getJSONArray("Reviews")
+//                var review1 : String = jsonArray.getString(0)
             } else {
                 Log.w("MainActivity", "No value found")
             }
