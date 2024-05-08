@@ -2,7 +2,6 @@ package com.example.favoriteprofessorapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -62,7 +61,7 @@ class SearchActivity : AppCompatActivity() {
             if (!MainActivity.professors.checkForProfessor(name)) {
                 val newProf = Professor(name)
                 MainActivity.professors.addProfessor(newProf)
-                if (MainActivity.names_of_favorites_for_initializing.contains(name)) {
+                if (MainActivity.shared_prefs_array_of_favorite_prof_names_for_initializing.contains(name)) {
                     MainActivity.favorites.addProfessor(newProf)
                 }
             }

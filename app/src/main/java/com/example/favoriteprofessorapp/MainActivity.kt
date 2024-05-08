@@ -12,8 +12,6 @@ import android.widget.RelativeLayout
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.core.view.isVisible
-import androidx.core.view.marginLeft
-import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -38,6 +36,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.w("MainActivity", "starting MainActivity")
 
+        shared_prefs_array_of_favorite_prof_names_for_initializing = initializeFavoritesFromSharedPreferences()
+        professors = Professors()
+        favorites = Professors()
+
         setContentView(R.layout.activity_main)
         var button : ImageButton = findViewById(R.id.review)
         button.isVisible = false
@@ -48,9 +50,15 @@ class MainActivity : AppCompatActivity() {
         var button3 : ImageButton = findViewById(R.id.home)
         button3.x = 80.0f
 
-        getFavoritesFromSharedPreferences()
-        professors = Professors()
-        favorites = Professors()
+        search_bar = findViewById(R.id.search_bar)
+        search_bar.isSubmitButtonEnabled = true
+        search_bar_listener = SearchBarListener()
+        search_bar.setOnQueryTextListener(search_bar_listener)
+
+        last_search_view = findViewById(R.id.lastSearch)
+
+        getBrightnessPreference()
+        last_search_view.text = "Last search: " + getLastSearch()
 
         var firebase : FirebaseDatabase = FirebaseDatabase.getInstance()
         classes_db = firebase.getReference("Classes")
@@ -63,28 +71,21 @@ class MainActivity : AppCompatActivity() {
         var professor_listener : ProfessorListener = ProfessorListener()
         professors_db.addValueEventListener(professor_listener)
 
-        search_bar = findViewById(R.id.search_bar)
-        search_bar.isSubmitButtonEnabled = true
-        search_bar_listener = SearchBarListener()
-        search_bar.setOnQueryTextListener(search_bar_listener)
-
-        last_search_view = findViewById(R.id.lastSearch)
-        
-        getBrightnessPreference()
-        last_search_view.text = "Last search: " + getLastSearch()
-
-        Log.w("MainActivity", "ending MA onCreate")
-
         //loadSearchResults()
     }
 
-    fun getFavoritesFromSharedPreferences() {
+    fun initializeFavoritesFromSharedPreferences(): Array<String> {
         val sharedPreferences = applicationContext.getSharedPreferences(applicationContext.packageName + "_preferences", Context.MODE_PRIVATE)
         val savedString = sharedPreferences.getString(FAVORITES_PREFERENCE_KEY, "")
-        if (savedString != "") {
-            names_of_favorites_for_initializing = savedString?.split(",")?.toTypedArray() ?: arrayOf()
-            names_of_favorites_for_initializing.forEach { profName -> Log.w("MainActivity", "Found favorited prof in shared prefs: $profName") }
-        }
+        val arrayOfFavoriteProfNames: Array<String> =
+            if (savedString != "") {
+                savedString?.split(",")?.toTypedArray() ?: arrayOf()
+            } else {
+                Log.w("MainActivity", "No favorited profs found in shared preferences")
+                arrayOf<String>()
+            }
+        arrayOfFavoriteProfNames.forEach { profName -> Log.w("MainActivity", "Found favorited prof in shared prefs: $profName") }
+        return arrayOfFavoriteProfNames
     }
     fun loadSearchResults() {
         var searchIntent : Intent = Intent(this, SearchActivity::class.java)
@@ -149,7 +150,7 @@ class MainActivity : AppCompatActivity() {
                         val newProfName = jsonArray.getString(i)
                         val newProf = Professor(newProfName)
                         professors.addProfessor(newProf)
-                        if (names_of_favorites_for_initializing.contains(newProfName)) {
+                        if (shared_prefs_array_of_favorite_prof_names_for_initializing.contains(newProfName)) {
                             favorites.addProfessor(newProf)
                         }
                     }
@@ -197,7 +198,9 @@ class MainActivity : AppCompatActivity() {
             var valueObject : Any? = snapshot.value
             if (valueObject != null) {
                 var value : String = valueObject.toString()
+                Log.w("MainActivity", "prof snapshot string value: $value")
                 var jsonObject : JSONObject = JSONObject(value)
+                Log.w("MainActivity", "prof snapshot json object: " + jsonObject)
                 var jsonObject2 : JSONObject = jsonObject.getJSONObject("Nelson Padua-Perez")
                 var jsonArray : JSONArray = jsonObject2.getJSONArray("Reviews")
                 var review1 : String = jsonArray.getString(0)
@@ -230,7 +233,7 @@ class MainActivity : AppCompatActivity() {
         lateinit var professors : Professors
         lateinit var favorites : Professors
         val FAVORITES_PREFERENCE_KEY : String = "favorites"
-        lateinit var names_of_favorites_for_initializing : Array<String>
+        lateinit var shared_prefs_array_of_favorite_prof_names_for_initializing : Array<String>
         var search_query : String = "Search for a class..."
         var brightness : String = "light"
     }

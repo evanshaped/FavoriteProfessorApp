@@ -1,6 +1,7 @@
 package com.example.favoriteprofessorapp
 
 import android.content.Context
+import android.util.Log
 
 class Professors {
     private var professors : Array<Professor> = arrayOf<Professor>()
@@ -35,8 +36,10 @@ class Professors {
     fun updateProfessorsPreferences(key:String, context:Context) {
         val sharedPreferences = context.getSharedPreferences(context.packageName + "_preferences", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putString(key, this.getProfessorsPrefString())
+        val profString = this.getProfessorsPrefString()
+        editor.putString(key, profString)
         editor.apply()
+        Log.w("Professors", "Saved favorites to preferences: $profString")
     }
 
     fun getProfessorsPrefString(): String {

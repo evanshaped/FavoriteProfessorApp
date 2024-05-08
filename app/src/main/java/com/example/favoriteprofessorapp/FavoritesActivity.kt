@@ -26,7 +26,7 @@ class FavoritesActivity : AppCompatActivity() {
         listView = findViewById(R.id.professor_list)
 
         textView = findViewById(R.id.professor_search)
-        textView.text = " Favorite Professors"
+        textView.text = "Favorite Professors"
 
         favorite_professors = MainActivity.favorites.getProfessorNamesArray()
 
