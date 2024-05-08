@@ -38,7 +38,13 @@
 
         </activity>
 
-        <activity android:name=".AddReview"></activity>
+        <activity android:name=".AddReview">
+
+        </activity>
+
+        <activity android:name=".FavoritesActivity">
+
+        </activity>
     </application>
 
 </manifest>

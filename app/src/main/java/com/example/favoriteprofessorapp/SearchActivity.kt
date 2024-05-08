@@ -58,12 +58,9 @@ class SearchActivity : AppCompatActivity() {
         // add professors to Professor list if not already in it
         for (i in 0 until jsonArray.length()) {
             var name = jsonArray.getString(i)
-            if (!MainActivity.professors.checkForProfessor(name)) {
+            if (!MainActivity.professorsForClassQuery.checkForProfessor(name)) {
                 val newProf = Professor(name)
-                MainActivity.professors.addProfessor(newProf)
-                if (MainActivity.shared_prefs_array_of_favorite_prof_names_for_initializing.contains(name)) {
-                    MainActivity.favorites.addProfessor(newProf)
-                }
+                MainActivity.professorsForClassQuery.addProfessor(newProf)
             }
             returned_professors.add(name)
         }
@@ -95,8 +92,8 @@ class SearchActivity : AppCompatActivity() {
     }
 
     fun goFavs(v:View){
-//      var myIntent : Intent = Intent(this@AddReview, Favorites::class.java)
-//      startActivity(myIntent)
+        var myIntent : Intent = Intent(this@SearchActivity, FavoritesActivity::class.java)
+        startActivity(myIntent)
     }
 
     fun goReview(v: View){

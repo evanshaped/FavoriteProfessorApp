@@ -1,13 +1,9 @@
 package com.example.favoriteprofessorapp
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ListView
@@ -21,7 +17,6 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.google.android.gms.common.internal.FallbackServiceBroker
 import org.json.JSONArray
 import org.json.JSONObject
 import java.math.RoundingMode
@@ -46,7 +41,7 @@ class ReviewActivity : AppCompatActivity() {
         button.isVisible = true
 
         profName = intent.getStringExtra("professorName")!!
-        professor = MainActivity.professors.getProfessor(profName)!! // This assertion should never go wrong (?)
+        professor = MainActivity.professorsForClassQuery.getProfessor(profName)!! // This assertion should never go wrong (?)
 
         Log.w(RA, "Starting ReviewActivity for professor: " + profName)
 
@@ -59,7 +54,7 @@ class ReviewActivity : AppCompatActivity() {
         favoritesImage = findViewById(R.id.add_to_favorites)
 
         // determine whether professor is already favorited or not
-        if (MainActivity.favorites.checkForProfessor(profName)) {
+        if (MainActivity.favoriteProfessors.checkForProfessor(profName)) {
             favorited = true
             favoritesImage.setImageResource(R.drawable.red_star)
         } else {
@@ -81,8 +76,8 @@ class ReviewActivity : AppCompatActivity() {
         if (favorited) {
             // unfavorite and remove from favorites
             favoritesImage.setImageResource(R.drawable.pink_outline)
-            MainActivity.favorites.removeProfessor(professor)
-            MainActivity.favorites.updateProfessorsPreferences(MainActivity.FAVORITES_PREFERENCE_KEY, applicationContext)
+            MainActivity.favoriteProfessors.removeProfessor(professor)
+            MainActivity.favoriteProfessors.updateProfessorsPreferences(MainActivity.FAVORITES_PREFERENCE_KEY, applicationContext)
             var toast : Toast = Toast.makeText(this, SearchActivity.clicked_professor + " removed from favorites", Toast.LENGTH_SHORT)
             toast.show()
             favorited = false
@@ -90,8 +85,8 @@ class ReviewActivity : AppCompatActivity() {
         } else {
             // favorite and add to favorites
             favoritesImage.setImageResource(R.drawable.red_star)
-            MainActivity.favorites.addProfessor(professor)
-            MainActivity.favorites.updateProfessorsPreferences(MainActivity.FAVORITES_PREFERENCE_KEY, applicationContext)
+            MainActivity.favoriteProfessors.addProfessor(professor)
+            MainActivity.favoriteProfessors.updateProfessorsPreferences(MainActivity.FAVORITES_PREFERENCE_KEY, applicationContext)
             var toast : Toast = Toast.makeText(this, SearchActivity.clicked_professor + " added to favorites", Toast.LENGTH_SHORT)
             toast.show()
             favorited = true
@@ -135,8 +130,8 @@ class ReviewActivity : AppCompatActivity() {
       startActivity(myIntent)
     }
     fun goFavs(v:View){
-//      var myIntent : Intent = Intent(this@AddReview, Favorites::class.java)
-//      startActivity(myIntent)
+        var myIntent : Intent = Intent(this@ReviewActivity, FavoritesActivity::class.java)
+        startActivity(myIntent)
     }
 
     fun goReview(v: View){

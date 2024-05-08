@@ -30,6 +30,8 @@ class AddReview : AppCompatActivity() {
 
         profName = intent.getStringExtra("professorName")!!
 
+        Log.w("AddReview", "Adding review for professor $profName")
+
         var button : ImageButton = findViewById(R.id.review)
         button.isVisible = true
 
@@ -47,12 +49,12 @@ class AddReview : AppCompatActivity() {
     fun addReview(v : View){
         var rating : Float = rat_bar.getRating()
         var review : String = userInput.getText().toString()
-        review = "'$review'"
+        val reviewText = "'$review'"
 
-        Log.w("AddReview","Adding review text: "+review + "rating: " + rating)
+        Log.w("AddReview","Adding review text: "+reviewText + "rating: " + rating)
 
         val profKey = "'$profName'"
-        Log.w("AddReview", "professor is: " + profKey)
+        Log.w("AddReview", "fetching firebase info for professor $profKey")
         val profRef : DatabaseReference = prof_db.child(profKey)
         val ratingsRef : DatabaseReference = profRef.child("Ratings")
         val reviewsRef : DatabaseReference = profRef.child("Reviews")
@@ -73,8 +75,8 @@ class AddReview : AppCompatActivity() {
         reviewsRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val nextIndex = dataSnapshot.childrenCount
-                reviewsRef.child(nextIndex.toString()).setValue(review)
-                Log.w("AddReview", "At index $nextIndex, added review: $review")
+                reviewsRef.child(nextIndex.toString()).setValue(reviewText)
+                Log.w("AddReview", "At index $nextIndex, added review: $reviewText")
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 Log.w("AddReview","Database error: ${databaseError.message}")
@@ -93,16 +95,16 @@ class AddReview : AppCompatActivity() {
     fun goHome(v: View){
         Log.w("MainActivity","Going home!!")
         try{
-        var myIntent : Intent = Intent(this@AddReview, MainActivity::class.java)
-        startActivity(myIntent)
+            var myIntent : Intent = Intent(this@AddReview, MainActivity::class.java)
+            startActivity(myIntent)
         } catch (e: Exception) {
             Log.e("MainActivity", "Error navigating to MainActivity: ${e.message}")
         }
     }
 
     fun goFavs(v:View){
-//      var myIntent : Intent = Intent(this@AddReview, Favorites::class.java)
-//      startActivity(myIntent)
+        var myIntent : Intent = Intent(this@AddReview, FavoritesActivity::class.java)
+        startActivity(myIntent)
     }
 
     fun goReview(v: View){

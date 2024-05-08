@@ -36,9 +36,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.w("MainActivity", "starting MainActivity")
 
-        shared_prefs_array_of_favorite_prof_names_for_initializing = initializeFavoritesFromSharedPreferences()
-        professors = Professors()
-        favorites = Professors()
+        initializeFavoriteProfessorsFromSharedPreferences()
 
         setContentView(R.layout.activity_main)
         var button : ImageButton = findViewById(R.id.review)
@@ -74,18 +72,18 @@ class MainActivity : AppCompatActivity() {
         //loadSearchResults()
     }
 
-    fun initializeFavoritesFromSharedPreferences(): Array<String> {
+    fun initializeFavoriteProfessorsFromSharedPreferences() {
         val sharedPreferences = applicationContext.getSharedPreferences(applicationContext.packageName + "_preferences", Context.MODE_PRIVATE)
         val savedString = sharedPreferences.getString(FAVORITES_PREFERENCE_KEY, "")
-        val arrayOfFavoriteProfNames: Array<String> =
             if (savedString != "") {
-                savedString?.split(",")?.toTypedArray() ?: arrayOf()
+                val arrayOfFavoriteProfNames: Array<String> = savedString?.split(",")?.toTypedArray() ?: arrayOf()
+                for (profName in arrayOfFavoriteProfNames) {
+                    Log.w("MainActivity", "Found favorited prof in shared prefs: $profName")
+                    favoriteProfessors.addProfessor(Professor(profName))
+                }
             } else {
                 Log.w("MainActivity", "No favorited profs found in shared preferences")
-                arrayOf<String>()
             }
-        arrayOfFavoriteProfNames.forEach { profName -> Log.w("MainActivity", "Found favorited prof in shared prefs: $profName") }
-        return arrayOfFavoriteProfNames
     }
     fun loadSearchResults() {
         var searchIntent : Intent = Intent(this, SearchActivity::class.java)
@@ -137,7 +135,7 @@ class MainActivity : AppCompatActivity() {
 
     inner class ClassesListener : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
-            professors = Professors()
+            professorsForClassQuery = Professors()
             classes_snapshot = snapshot
             var key : String? = snapshot.key
             var valueObject = snapshot.value
@@ -146,23 +144,21 @@ class MainActivity : AppCompatActivity() {
                 var jsonObject : JSONObject = JSONObject(value)
                 try {
                     var jsonArray : JSONArray = jsonObject.getJSONArray(search_query)
+                    Log.w("MainActivity", "Adding professors for query $search_query...")
                     for (i in 0..jsonArray.length() - 1) {
                         val newProfName = jsonArray.getString(i)
                         val newProf = Professor(newProfName)
-                        professors.addProfessor(newProf)
-                        if (shared_prefs_array_of_favorite_prof_names_for_initializing.contains(newProfName)) {
-                            favorites.addProfessor(newProf)
-                        }
+                        professorsForClassQuery.addProfessor(newProf)
+                        Log.w("MainActivity", "Added professor ${newProf.getName()}")
                     }
-                    Log.w("MainActivity", professors.toString())
                 } catch (e : Exception) {
-                    Log.w("MainActivity", "No value found for " + search_query)
+                    Log.w("MainActivity", "Query not found: $search_query")
                 }
 
                 // this will eventually be called based on when the user clicks search
                 // but just keeping it here for now to get it to work
             } else {
-                Log.w("MainActivity", "No value found")
+                Log.w("MainActivity", "No value found for classes snapshot")
             }
         }
 
@@ -197,8 +193,8 @@ class MainActivity : AppCompatActivity() {
             var key : String? = snapshot.key
             var valueObject : Any? = snapshot.value
             if (valueObject != null) {
-//                var value : String = valueObject.toString()
-//                Log.w("MainActivity", "prof snapshot string value: $value")
+                var value : String = valueObject.toString()
+                Log.w("MainActivity", "prof snapshot string value: $value")
 //                var jsonObject : JSONObject = JSONObject(value)
 //                Log.w("MainActivity", "prof snapshot json object: " + jsonObject)
 //                var jsonObject2 : JSONObject = jsonObject.getJSONObject("Nelson Padua-Perez")
@@ -219,8 +215,8 @@ class MainActivity : AppCompatActivity() {
       startActivity(myIntent)
     }
     fun goFavs(v:View){
-//      var myIntent : Intent = Intent(this@AddReview, Favorites::class.java)
-//      startActivity(myIntent)
+      var myIntent : Intent = Intent(this@MainActivity, FavoritesActivity::class.java)
+      startActivity(myIntent)
     }
 
     fun goReview(v: View){
@@ -230,10 +226,9 @@ class MainActivity : AppCompatActivity() {
     companion object {
         var classes_snapshot : DataSnapshot? = null
         var professors_snapshot : DataSnapshot? = null
-        lateinit var professors : Professors
-        lateinit var favorites : Professors
+        var professorsForClassQuery : Professors = Professors()
+        var favoriteProfessors : Professors = Professors()
         val FAVORITES_PREFERENCE_KEY : String = "favorites"
-        lateinit var shared_prefs_array_of_favorite_prof_names_for_initializing : Array<String>
         var search_query : String = "Search for a class..."
         var brightness : String = "light"
     }
