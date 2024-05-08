@@ -16,7 +16,7 @@ import org.json.JSONObject
 
 class SearchActivity : AppCompatActivity() {
     // hardcoding searched_class for now but this will be whatever is searched in MainActivity
-    private var searched_class : String = "CMSC335"
+    private var searched_class : String = MainActivity.search_query
     private lateinit var textView : TextView
     private lateinit var listView : ListView
     private var returned_professors : ArrayList<String> = ArrayList<String>()
