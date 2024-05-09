@@ -25,9 +25,7 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        var button : ImageButton = findViewById(R.id.review)
-        button.isVisible = false
-
+        
         var button2 : ImageButton = findViewById(R.id.star)
         button2.x = -60.0f
 
