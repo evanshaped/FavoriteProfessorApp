@@ -32,9 +32,6 @@ class AddReview : AppCompatActivity() {
 
         Log.w("AddReview", "Adding review for professor $profName")
 
-        var button : ImageButton = findViewById(R.id.review)
-        button.isVisible = true
-
         var firebase : FirebaseDatabase = FirebaseDatabase.getInstance()
         prof_db = firebase.getReference("Professors")
 

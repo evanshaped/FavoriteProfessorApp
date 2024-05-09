@@ -36,8 +36,6 @@ class ReviewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reviews)
-        var button : ImageButton = findViewById(R.id.review)
-        button.isVisible = true
 
         profName = intent.getStringExtra("professorName")!!
 
