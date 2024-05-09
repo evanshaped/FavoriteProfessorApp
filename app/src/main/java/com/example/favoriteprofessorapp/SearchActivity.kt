@@ -85,7 +85,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     fun goHome(v : View){
-        Log.w("MainAcitivty","home from search activity")
+        Log.w("MainActivity","home from search activity")
         var myIntent : Intent = Intent(this@SearchActivity, MainActivity::class.java)
         startActivity(myIntent)
     }

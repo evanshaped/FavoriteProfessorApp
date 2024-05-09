@@ -35,7 +35,8 @@
         android:id="@+id/review_list"
         android:headerDividersEnabled="true"
         style="@style/DividerStyleLight"
-        android:layout_below="@+id/professor_searched" />
+        android:layout_below="@+id/professor_searched"
+        android:layout_marginBottom="40dp"/>
 
     <TextView
         android:layout_width="wrap_content"
