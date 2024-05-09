@@ -68,6 +68,17 @@ class ReviewActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        var valueObject = MainActivity.professors_snapshot?.value
+        if (valueObject != null) {
+            var value: String = valueObject.toString()
+            var jsonObject : JSONObject = JSONObject(value)
+            displayReviews(jsonObject)
+        }
+    }
+
     fun favoritesPressed() {
         if (favorited) {
             // unfavorite and remove from favorites
