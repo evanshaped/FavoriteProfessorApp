@@ -24,17 +24,17 @@
         android:id="@+id/home"
         />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/thought"
-        android:scaleY="1"
-        android:scaleX=".6"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="720dp"
-        android:onClick="goReview"
-        android:id="@+id/review"
-        />
+<!--    <ImageButton-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@drawable/thought"-->
+<!--        android:scaleY="1"-->
+<!--        android:scaleX=".6"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginTop="720dp"-->
+<!--        android:onClick="goReview"-->
+<!--        android:id="@+id/review"-->
+<!--        />-->
 
     <ImageButton
         android:layout_width="wrap_content"

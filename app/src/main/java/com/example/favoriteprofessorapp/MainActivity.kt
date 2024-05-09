@@ -39,14 +39,6 @@ class MainActivity : AppCompatActivity() {
         setFavoriteProfessorsFromSharedPreferences()
 
         setContentView(R.layout.activity_main)
-        var button : ImageButton = findViewById(R.id.review)
-        button.isVisible = false
-
-        var button2 : ImageButton = findViewById(R.id.star)
-        button2.x = -90.0f
-
-        var button3 : ImageButton = findViewById(R.id.home)
-        button3.x = 80.0f
 
         search_bar = findViewById(R.id.search_bar)
         search_bar.isSubmitButtonEnabled = true
