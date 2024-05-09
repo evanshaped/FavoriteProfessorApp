@@ -10,20 +10,55 @@
         android:gravity="center_horizontal"
         android:text="Favorite Professors"
         style="@style/ProfessorTitleLight"
-        android:id="@+id/professor_search"
+        android:id="@+id/professor_favorite"
         />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/blue"
-        android:layout_below="@+id/professor_search"/>
+        android:layout_below="@+id/professor_favorite"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/professor_favorite"
+        android:layout_marginTop="75dp"
+        android:background="@color/blue"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/professor_favorite"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="25dp"
+        style="@style/ButtonStyleLight"
+        android:text="Email Classes"
+        android:id="@+id/newEmail"
+        android:onClick="processEmail"
+        />
+
+    <EditText
+        android:layout_width="210dp"
+        android:layout_height="50dp"
+        android:id="@+id/emailAddress"
+        android:layout_toLeftOf="@+id/newEmail"
+        android:layout_alignBottom="@+id/newEmail"
+        android:layout_marginEnd="20dp"
+        android:textColor="@color/purple"
+        android:hint="Your email ..."
+        android:text=""
+        />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
         android:id="@+id/professor_list"
         style="@style/DividerStyleLight"
-        android:layout_below="@+id/professor_search" />
+        android:layout_below="@+id/professor_favorite" />
     <include layout="@layout/activity_nav_bar"/>
 </RelativeLayout>
