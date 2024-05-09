@@ -59,6 +59,7 @@
         android:layout_marginTop="75dp"
         android:id="@+id/professor_list"
         style="@style/DividerStyleLight"
-        android:layout_below="@+id/professor_favorite" />
+        android:layout_below="@+id/professor_favorite"
+        android:layout_marginBottom="70dp"/>
     <include layout="@layout/activity_nav_bar"/>
 </RelativeLayout>

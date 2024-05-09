@@ -36,7 +36,7 @@
         android:headerDividersEnabled="true"
         style="@style/DividerStyleLight"
         android:layout_below="@+id/professor_searched"
-        android:layout_marginBottom="40dp"/>
+        android:layout_marginBottom="70dp"/>
 
     <TextView
         android:layout_width="wrap_content"
